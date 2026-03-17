@@ -12,6 +12,8 @@ services:
       - "5432:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
+    networks:
+      - todo-network
 
   backend:
     build: ./backend
@@ -31,7 +33,7 @@ services:
         REACT_APP_BACKEND_URL: http://todo-backend:5000  # Build-time env for React
     container_name: todo-frontend
     ports:
-      - "3000:3000"   # For dev server, use 80 if Nginx
+      - "3000:3000"   # For dev server, use 80 if Nginx in production
     depends_on:
       - backend
     networks:
