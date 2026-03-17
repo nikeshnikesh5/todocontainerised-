@@ -10,16 +10,16 @@ function App() {
   }, []);
 
   const fetchTodos = async () => {
-    const res = await axios.get("http://localhost:5000/todos");
-    setTodos(res.data);
-  };
+  const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/todos`);
+  setTodos(res.data);
+};
 
-  const addTodo = async () => {
-    if (!text) return;
-    await axios.post("http://localhost:5000/todos", { text });
-    setText("");
-    fetchTodos();
-  };
+const addTodo = async () => {
+  if (!text) return;
+  await axios.post(`${process.env.REACT_APP_BACKEND_URL}/todos`, { text });
+  setText("");
+  fetchTodos();
+};
 
   return (
     <div style={{ padding: 20 }}>
