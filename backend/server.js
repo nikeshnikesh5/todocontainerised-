@@ -4,7 +4,12 @@ const pool = require("./db");
 require("dotenv").config();
 
 const app = express();
-app.use(cors());
+
+app.use(cors({
+  origin: 'http://frontend:3000',  // This is the frontend service name and port in Docker
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+}));
+
 app.use(express.json());
 
 app.get("/todos", async (req, res) => {
