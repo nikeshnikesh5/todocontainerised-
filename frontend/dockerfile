@@ -1,8 +1,22 @@
-FROM node:20-alphine
+FROM node:20-alpine
+
+# Set working directory
 WORKDIR /app
-COPY package.json ./
+
+# Copy package files first (for caching)
+COPY package*.json ./
+
+# Install dependencies
 RUN npm install
-COPY ..
-RUN npm run build 
+
+# Copy the rest of the files
+COPY . .
+
+# Build the app
+RUN npm run build
+
+# Expose port
 EXPOSE 3000
-CMD ["npx" ,"server","-s","build"."-l","3000"]
+
+# Start the app using 'serve'
+CMD ["npx", "serve", "-s", "build", "-l", "3000"]
