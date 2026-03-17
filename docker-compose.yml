@@ -31,7 +31,7 @@ services:
         REACT_APP_BACKEND_URL: http://todo-backend:5000  # Pass build-time environment variable
     container_name: todo-frontend
     ports:
-      - "80:80"   # Exposing the app on port 80
+      - "3000:3000"   # Exposing the app on port 3000
     depends_on:
       - backend
     networks:
