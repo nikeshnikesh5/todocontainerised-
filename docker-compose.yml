@@ -12,8 +12,6 @@ services:
       - "5432:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
-    networks:
-      - todo-network
 
   backend:
     build: ./backend
@@ -30,16 +28,14 @@ services:
     build:
       context: ./frontend
       args:
-        REACT_APP_BACKEND_URL: http://todo-backend:5000  # Build-time env for React
+        REACT_APP_BACKEND_URL: http://todo-backend:5000  # Pass build-time environment variable
     container_name: todo-frontend
     ports:
-      - "3000:3000"   # For dev server, use 80 if Nginx in production
+      - "80:80"   # Exposing the app on port 80
     depends_on:
       - backend
     networks:
       - todo-network
-    # For dev server wait until backend is ready
-    command: sh -c "while ! nc -z todo-backend 5000; do sleep 1; done; npm start"
 
 volumes:
   db-data:
