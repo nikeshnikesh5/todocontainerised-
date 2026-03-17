@@ -31,6 +31,7 @@ services:
       REACT_APP_BACKEND_URL: http://todo-backend:5000
     depends_on:
       - backend
+    command: sh -c "while ! nc -z todo-backend 5000; do sleep 1; done; npm start"
 
 volumes:
   db-data:
