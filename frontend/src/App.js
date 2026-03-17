@@ -9,6 +9,8 @@ function App() {
     fetchTodos();
   }, []);
 
+
+
   const fetchTodos = async () => {
   const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/todos`);
   setTodos(res.data);

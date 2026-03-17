@@ -21,18 +21,27 @@ services:
       - "5000:5000"
     depends_on:
       - db
+    networks:
+      - todo-network
 
   frontend:
     build:
       context: ./frontend
       args:
-        REACT_APP_BACKEND_URL: http://todo-backend:5000   # Build-time env for React
+        REACT_APP_BACKEND_URL: http://todo-backend:5000  # Build-time env for React
     container_name: todo-frontend
     ports:
-      - "3000:3000"
+      - "3000:3000"   # For dev server, use 80 if Nginx
     depends_on:
       - backend
+    networks:
+      - todo-network
+    # For dev server wait until backend is ready
     command: sh -c "while ! nc -z todo-backend 5000; do sleep 1; done; npm start"
 
 volumes:
   db-data:
+
+networks:
+  todo-network:
+    driver: bridge
