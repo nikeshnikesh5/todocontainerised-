@@ -1,33 +1,34 @@
-version:"3:9"
+version: "3.9"
+
 services:
   db:
-    image:postgress:16
-    container_name:todo_db
-    enviroment:
-    POSTGRES_USER:${DB_USER}
-    POSTGRES_PASSWORD:#{DB_PASS}
-    POSTGRESS_DB:${DB_NAME}
-  ports:
-   - "5432:5432"
-   volume:
-    -db-data:/var/lib/postgressql/data
+    image: postgres:16           # fixed typo: postgress -> postgres
+    container_name: todo-db
+    environment:                 # fixed typo: enviroment -> environment
+      POSTGRES_USER: ${DB_USER}  
+      POSTGRES_PASSWORD: ${DB_PASS}  # fixed syntax: #{DB_PASS} -> ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}        # fixed typo: POSTGRESS_DB -> POSTGRES_DB
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data   # fixed path typo: postgressql -> postgresql
 
- backend:
-    build:./backend
-    container_name:todo-backend
+  backend:
+    build: ./backend
+    container_name: todo-backend
     env_file: .env
     ports:
       - "5000:5000"
-      depends_on:
+    depends_on:
       - db
 
-frontend:
-  build: ./frontend
-  container_name: todo-frontend
-  ports:
-    -"3000:3000"
-  depends_on         
-  - backend
+  frontend:
+    build: ./frontend
+    container_name: todo-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
 
- volumes:
-   db-data: 
+volumes:
+  db-data:
