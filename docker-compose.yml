@@ -1,0 +1,33 @@
+version:"3:9"
+services:
+  db:
+    image:postgress:16
+    container_name:todo_db
+    enviroment:
+    POSTGRES_USER:${DB_USER}
+    POSTGRES_PASSWORD:#{DB_PASS}
+    POSTGRESS_DB:${DB_NAME}
+  ports:
+   - "5432:5432"
+   volume:
+    -db-data:/var/lib/postgressql/data
+
+ backend:
+    build:./backend
+    container_name:todo-backend
+    env_file: .env
+    ports:
+      - "5000:5000"
+      depends_on:
+      - db
+
+frontend:
+  build: ./frontend
+  container_name: todo-frontend
+  ports:
+    -"3000:3000"
+  depends_on         
+  - backend
+
+ volumes:
+   db-data: 
