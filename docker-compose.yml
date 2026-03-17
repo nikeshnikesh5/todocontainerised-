@@ -2,16 +2,16 @@ version: "3.9"
 
 services:
   db:
-    image: postgres:16           # fixed typo: postgress -> postgres
+    image: postgres:16
     container_name: todo-db
-    environment:                 # fixed typo: enviroment -> environment
-      POSTGRES_USER: ${DB_USER}  
-      POSTGRES_PASSWORD: ${DB_PASS}  # fixed syntax: #{DB_PASS} -> ${DB_PASS}
-      POSTGRES_DB: ${DB_NAME}        # fixed typo: POSTGRESS_DB -> POSTGRES_DB
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
     ports:
       - "5432:5432"
     volumes:
-      - db-data:/var/lib/postgresql/data   # fixed path typo: postgressql -> postgresql
+      - db-data:/var/lib/postgresql/data
 
   backend:
     build: ./backend
@@ -27,6 +27,8 @@ services:
     container_name: todo-frontend
     ports:
       - "3000:3000"
+    environment:
+      REACT_APP_BACKEND_URL: http://todo-backend:5000
     depends_on:
       - backend
 
